@@ -117,3 +117,19 @@ CREATE TABLE IF NOT EXISTS medidas_corporales (
   CONSTRAINT chk_valor_cm CHECK (valor_cm > 0 AND valor_cm <= 300),
   CONSTRAINT uq_seg_tipo UNIQUE (seguimiento_id, tipo_medida_id)
 ) ENGINE=InnoDB;
+
+-- =====================================================================
+-- PLANES_NUTRICIONALES
+-- =====================================================================
+CREATE TABLE IF NOT EXISTS planes_nutricionales (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  plan_cliente_id INT NOT NULL,
+  nombre VARCHAR(120) NOT NULL,
+  meta_calorica_diaria INT NOT NULL,
+  descripcion TEXT NULL,
+  estado ENUM('activo','inactivo','finalizado') NOT NULL DEFAULT 'activo',
+  creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT fk_nut_pc FOREIGN KEY (plan_cliente_id)
+    REFERENCES planes_clientes(id) ON DELETE CASCADE,
+  CONSTRAINT chk_meta CHECK (meta_calorica_diaria BETWEEN 1000 AND 5000)
+) ENGINE=InnoDB;
