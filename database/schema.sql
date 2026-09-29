@@ -133,3 +133,18 @@ CREATE TABLE IF NOT EXISTS planes_nutricionales (
     REFERENCES planes_clientes(id) ON DELETE CASCADE,
   CONSTRAINT chk_meta CHECK (meta_calorica_diaria BETWEEN 1000 AND 5000)
 ) ENGINE=InnoDB;
+
+-- =====================================================================
+-- ALIMENTOS
+-- =====================================================================
+CREATE TABLE IF NOT EXISTS alimentos (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  plan_nutricional_id INT NOT NULL,
+  fecha DATE NOT NULL,
+  nombre VARCHAR(120) NOT NULL,
+  calorias INT NOT NULL,
+  momento ENUM('desayuno','almuerzo','cena','snack') NOT NULL,
+  CONSTRAINT fk_alimento_pn FOREIGN KEY (plan_nutricional_id)
+    REFERENCES planes_nutricionales(id) ON DELETE CASCADE,
+  CONSTRAINT chk_calorias CHECK (calorias > 0 AND calorias <= 5000)
+) ENGINE=InnoDB;
