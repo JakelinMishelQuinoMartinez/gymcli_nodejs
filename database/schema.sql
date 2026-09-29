@@ -101,3 +101,19 @@ CREATE TABLE IF NOT EXISTS tipos_medida (
 INSERT INTO tipos_medida (nombre) VALUES
   ('Cintura'), ('Cadera'), ('Pecho'), ('Brazo'), ('Pierna')
 ON DUPLICATE KEY UPDATE nombre = nombre;
+
+-- =====================================================================
+-- MEDIDAS_CORPORALES
+-- =====================================================================
+CREATE TABLE IF NOT EXISTS medidas_corporales (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  seguimiento_id INT NOT NULL,
+  tipo_medida_id INT NOT NULL,
+  valor_cm DECIMAL(5,2) NOT NULL,
+  CONSTRAINT fk_medida_seg FOREIGN KEY (seguimiento_id)
+    REFERENCES seguimiento_fisico(id) ON DELETE CASCADE,
+  CONSTRAINT fk_medida_tipo FOREIGN KEY (tipo_medida_id)
+    REFERENCES tipos_medida(id) ON DELETE RESTRICT,
+  CONSTRAINT chk_valor_cm CHECK (valor_cm > 0 AND valor_cm <= 300),
+  CONSTRAINT uq_seg_tipo UNIQUE (seguimiento_id, tipo_medida_id)
+) ENGINE=InnoDB;
