@@ -88,3 +88,16 @@ CREATE TABLE IF NOT EXISTS seguimiento_fisico (
   CONSTRAINT chk_peso CHECK (peso_kg BETWEEN 20 AND 300),
   CONSTRAINT chk_grasa CHECK (grasa_corporal IS NULL OR grasa_corporal BETWEEN 3 AND 60)
 ) ENGINE=InnoDB;
+
+-- =====================================================================
+-- TIPOS_MEDIDA
+-- =====================================================================
+CREATE TABLE IF NOT EXISTS tipos_medida (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(60) NOT NULL UNIQUE,
+  creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+INSERT INTO tipos_medida (nombre) VALUES
+  ('Cintura'), ('Cadera'), ('Pecho'), ('Brazo'), ('Pierna')
+ON DUPLICATE KEY UPDATE nombre = nombre;
