@@ -4,6 +4,7 @@ import { pool } from './config/database.js';
 
 process.on('unhandledRejection', (err) => {
   console.log(chalk.red(`✖ Error no controlado: ${err.message}`));
+  process.exitCode = 1;
 });
 
 async function main() {
@@ -12,9 +13,9 @@ async function main() {
     await menuPrincipal();
   } catch (err) {
     console.log(chalk.red(`✖ Error fatal: ${err.message}`));
+    process.exitCode = 1;
   } finally {
     await pool.end();
-    process.exit(0);
   }
 }
 
