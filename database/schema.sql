@@ -69,3 +69,22 @@ CREATE TABLE IF NOT EXISTS contratos (
   CONSTRAINT chk_contrato_precio CHECK (precio > 0),
   CONSTRAINT chk_contrato_fechas CHECK (fecha_fin > fecha_inicio)
 ) ENGINE=InnoDB;
+
+-- =====================================================================
+-- SEGUIMIENTO_FISICO
+-- =====================================================================
+CREATE TABLE IF NOT EXISTS seguimiento_fisico (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  plan_cliente_id INT NOT NULL,
+  fecha DATE NOT NULL,
+  peso_kg DECIMAL(5,2) NOT NULL,
+  grasa_corporal DECIMAL(4,1) NULL,
+  foto_ruta VARCHAR(255) NULL,
+  notas VARCHAR(500) NULL,
+  estado ENUM('activo','inactivo') NOT NULL DEFAULT 'activo',
+  creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT fk_seg_pc FOREIGN KEY (plan_cliente_id)
+    REFERENCES planes_clientes(id) ON DELETE CASCADE,
+  CONSTRAINT chk_peso CHECK (peso_kg BETWEEN 20 AND 300),
+  CONSTRAINT chk_grasa CHECK (grasa_corporal IS NULL OR grasa_corporal BETWEEN 3 AND 60)
+) ENGINE=InnoDB;
