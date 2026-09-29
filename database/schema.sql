@@ -148,3 +148,30 @@ CREATE TABLE IF NOT EXISTS alimentos (
     REFERENCES planes_nutricionales(id) ON DELETE CASCADE,
   CONSTRAINT chk_calorias CHECK (calorias > 0 AND calorias <= 5000)
 ) ENGINE=InnoDB;
+
+-- =====================================================================
+-- TRANSACCIONES_FINANCIERAS
+-- =====================================================================
+CREATE TABLE IF NOT EXISTS transacciones_financieras (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  cliente_id INT NULL,
+  tipo ENUM('ingreso','egreso') NOT NULL,
+  categoria VARCHAR(80) NOT NULL,
+  monto DECIMAL(10,2) NOT NULL,
+  descripcion VARCHAR(255) NULL,
+  fecha DATE NOT NULL,
+  creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT fk_tx_cliente FOREIGN KEY (cliente_id)
+    REFERENCES clientes(id) ON DELETE SET NULL,
+  CONSTRAINT chk_monto CHECK (monto > 0)
+) ENGINE=InnoDB;
+
+-- =====================================================================
+-- INSERT PLANES DE ENTRENAMIENTO
+-- =====================================================================
+INSERT INTO planes_entrenamiento
+  (nombre, duracion_meses, meta_fisica, nivel, precio) VALUES
+  ('Plan Basico', 1, 'Acondicionamiento general', 'principiante', 250.00),
+  ('Plan Intermedio', 3, 'Ganancia muscular', 'intermedio', 600.00),
+  ('Plan Avanzado', 6, 'Definicion y fuerza', 'avanzado', 1100.00)
+ON DUPLICATE KEY UPDATE nombre = nombre;
