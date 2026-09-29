@@ -170,8 +170,25 @@ CREATE TABLE IF NOT EXISTS transacciones_financieras (
 -- INSERT PLANES DE ENTRENAMIENTO
 -- =====================================================================
 INSERT INTO planes_entrenamiento
-  (nombre, duracion_meses, meta_fisica, nivel, precio) VALUES
-  ('Plan Basico', 1, 'Acondicionamiento general', 'principiante', 250.00),
-  ('Plan Intermedio', 3, 'Ganancia muscular', 'intermedio', 600.00),
-  ('Plan Avanzado', 6, 'Definicion y fuerza', 'avanzado', 1100.00)
-ON DUPLICATE KEY UPDATE nombre = nombre;
+  (nombre, duracion_meses, meta_fisica, nivel, precio)
+SELECT 'Plan Basico', 1, 'Acondicionamiento general', 'principiante', 250.00
+FROM DUAL
+WHERE NOT EXISTS (
+  SELECT 1 FROM planes_entrenamiento WHERE nombre = 'Plan Basico'
+);
+
+INSERT INTO planes_entrenamiento
+  (nombre, duracion_meses, meta_fisica, nivel, precio)
+SELECT 'Plan Intermedio', 3, 'Ganancia muscular', 'intermedio', 600.00
+FROM DUAL
+WHERE NOT EXISTS (
+  SELECT 1 FROM planes_entrenamiento WHERE nombre = 'Plan Intermedio'
+);
+
+INSERT INTO planes_entrenamiento
+  (nombre, duracion_meses, meta_fisica, nivel, precio)
+SELECT 'Plan Avanzado', 6, 'Definicion y fuerza', 'avanzado', 1100.00
+FROM DUAL
+WHERE NOT EXISTS (
+  SELECT 1 FROM planes_entrenamiento WHERE nombre = 'Plan Avanzado'
+);
