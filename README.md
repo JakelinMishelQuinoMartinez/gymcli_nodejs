@@ -8,8 +8,10 @@ Node.js (ES Modules) · MySQL 8 · mysql2/promise · inquirer 8.2.5 · chalk · 
 
 ## Instalación
 
-1. Crea la base de datos en MySQL copiando y pegando los scripts que están dentro de database/schema.sql y ejecutalos en el motor de base de datos.
-2. Después de tener la base de datos ejecuta los siguientes comandos:
+1. Clona el repositorio y entra en el directorio del proyecto.
+2. Instala las dependencias, configura `.env` y ejecuta el esquema con los comandos correspondientes a tu sistema operativo.
+1. Clona el repositorio y entra en el directorio del proyecto.
+2. Instala las dependencias, configura `.env` y ejecuta el esquema con los comandos correspondientes a tu sistema operativo.
 
 
 ### Linux / macOS / Git Bash
@@ -19,7 +21,7 @@ git clone <URL-DEL-REPO>
 cd gymcli_nodejs
 npm install
 cp .env.example .env # Coloca tu user y password de MySQL 
-mysql -u root -p < database/ddl/schema.sql
+mysql -u root -p < database/schema.sql
 node app.js
 ```
 
@@ -29,7 +31,7 @@ git clone <URL-DEL-REPO>
 cd gymcli_nodejs
 npm install
 Copy-Item .env.example .env # Coloca tu user y password de MySQL 
-Get-Content database/ddl/schema.sql | & "C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql.exe" -u root -p
+Get-Content database/schema.sql | & "C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql.exe" -u root -p
 node app.js
 ```
 
@@ -44,6 +46,26 @@ node app.js
 | `DB_NAME` | `gymcli_db` |
 
 ## Estructura del proyecto
+
+```text
+gymcli_nodejs/
+|-- .env.example
+|-- .gitkeep
+|-- app.js
+|-- package.json
+|-- package-lock.json
+|-- README.md
+|-- commands/        # Menús y acciones disponibles en la CLI
+|-- config/          # Configuración de la conexión a MySQL
+|-- database/        # Esquema SQL de la base de datos
+|-- docs/            # Documentos y recursos del proyecto
+|-- factories/       # Creación de objetos con lógica común
+|-- models/          # Entidades y validaciones de los datos
+|-- repositories/    # Consultas y acceso a la base de datos
+|-- services/        # Reglas y operaciones del negocio
+`-- utils/           # Funciones auxiliares reutilizables
+
+```
 
 
 
@@ -74,7 +96,7 @@ node app.js
 ![Diagrama](docs/diagrama-tablas.png)
 
 ## Video demostrativo
-<a href="https://drive.google.com/drive/folders/1WAUFzsW_LPXaBaJkbBFl0G-p1L-lTTzK?usp=sharing">Click aquí</a>
+<a href="https://drive.google.com/drive/folders/1WAUFzsW_LPXaBaJkbBFl0G-p1L-lTTzK?usp=sharing">Haz clic aquí</a>
 
 
 **Autora:** Jakelin Quino
