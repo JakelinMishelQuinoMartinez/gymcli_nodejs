@@ -50,3 +50,22 @@ CREATE TABLE IF NOT EXISTS planes_clientes (
     REFERENCES planes_entrenamiento(id) ON DELETE RESTRICT,
   CONSTRAINT chk_fechas CHECK (fecha_fin > fecha_inicio)
 ) ENGINE=InnoDB;
+
+-- =====================================================================
+-- CONTRATOS 
+-- =====================================================================
+CREATE TABLE IF NOT EXISTS contratos (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  plan_cliente_id INT NOT NULL,
+  fecha_inicio DATE NOT NULL,
+  fecha_fin DATE NOT NULL,
+  precio DECIMAL(10,2) NOT NULL,
+  condiciones TEXT NOT NULL,
+  estado ENUM('activo','cancelado','finalizado') NOT NULL DEFAULT 'activo',
+  firmado BOOLEAN NOT NULL DEFAULT FALSE,
+  creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT fk_contrato_pc FOREIGN KEY (plan_cliente_id)
+    REFERENCES planes_clientes(id) ON DELETE RESTRICT,
+  CONSTRAINT chk_contrato_precio CHECK (precio > 0),
+  CONSTRAINT chk_contrato_fechas CHECK (fecha_fin > fecha_inicio)
+) ENGINE=InnoDB;
