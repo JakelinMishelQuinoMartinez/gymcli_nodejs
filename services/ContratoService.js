@@ -18,7 +18,8 @@ export class ContratoService {
     clienteRepo = new ClienteRepository(),
     seguimientoRepo = new SeguimientoRepository(),
     nutricionRepo = new NutricionRepository(),
-    finanzasRepo = new FinanzasRepository()
+    finanzasRepo = new FinanzasRepository(),
+    connectionPool = pool
   ) {
     this.planRepo = planRepo;
     this.planClienteRepo = planClienteRepo;
@@ -27,6 +28,7 @@ export class ContratoService {
     this.seguimientoRepo = seguimientoRepo;
     this.nutricionRepo = nutricionRepo;
     this.finanzasRepo = finanzasRepo;
+    this.connectionPool = connectionPool;
   }
 
   // OPERACIÓN CRÍTICA: asigna un plan y genera el contrato en UNA sola transacción (RF-05)
@@ -40,7 +42,7 @@ export class ContratoService {
     const existente = await this.planClienteRepo.buscarActivoPorClienteYPlan(cliente_id, plan_id);
     if (existente) throw new Error('El cliente ya tiene un plan activo de este mismo tipo.');
 
-    const conn = await pool.getConnection();
+    const conn = await this.connectionPool.getConnection();
     try {
       await conn.beginTransaction();
 
@@ -85,7 +87,7 @@ export class ContratoService {
     const contrato = await this.contratoRepo.buscarActivoPorPlanCliente(planClienteId);
     if (!contrato) throw new Error('No se encontró un contrato activo para este plan.');
 
-    const conn = await pool.getConnection();
+    const conn = await this.connectionPool.getConnection();
     try {
       await conn.beginTransaction();
 
@@ -131,7 +133,7 @@ export class ContratoService {
       throw new Error('Solo se puede finalizar un contrato firmado.');
     }
 
-    const conn = await pool.getConnection();
+    const conn = await this.connectionPool.getConnection();
     try {
       await conn.beginTransaction();
       await this.contratoRepo.actualizarEstado(contrato.id, 'finalizado', conn);
@@ -163,7 +165,7 @@ export class ContratoService {
     }
     const plan = await this.planRepo.buscarPorId(planCliente.plan_id);
 
-    const conn = await pool.getConnection();
+    const conn = await this.connectionPool.getConnection();
     try {
       await conn.beginTransaction();
 
