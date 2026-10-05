@@ -25,6 +25,13 @@ mysql -u root -p < database/schema.sql
 node app.js
 ```
 
+## Exportar progreso de un cliente
+
+Desde el menú principal selecciona **Exportar progreso de cliente**.
+```
+
+El archivo se crea en `exports/cliente_<nombre>_progreso.json`; contiene datos del cliente. Los datos se consultan desde MySQL, que es la persistencia configurada por esta aplicación.
+
 ### Windows (PowerShell)
 ```bash
 git clone <URL-DEL-REPO>

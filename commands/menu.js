@@ -5,6 +5,7 @@ import { menuContratos } from './ContratoCommands.js';
 import { menuFinanzas } from './FinanzasCommands.js';
 import { menuSeguimiento } from './SeguimientoCommands.js';
 import { menuNutricion } from './NutricionCommands.js';
+import { exportarClienteCommand } from './ExportarClienteCommand.js';
 import { tituloMenu, error, fucsia, LINEA_ESTRELLA } from '../utils/theme.js';
 
 export async function menuPrincipal() {
@@ -13,7 +14,7 @@ export async function menuPrincipal() {
     tituloMenu('GYMCLI — MENÚ PRINCIPAL');
     const { opcion } = await inquirer.prompt([{
       type: 'list', name: 'opcion', message: 'Elige un módulo:',
-      choices: ['Clientes', 'Planes', 'Contratos', 'Finanzas', 'Seguimiento', 'Nutrición', 'Salir'],
+      choices: ['Clientes', 'Planes', 'Contratos', 'Finanzas', 'Seguimiento', 'Nutrición', 'Exportar progreso de cliente', 'Salir'],
     }]);
     try {
       if (opcion === 'Clientes') await menuClientes();
@@ -22,6 +23,7 @@ export async function menuPrincipal() {
       if (opcion === 'Finanzas') await menuFinanzas();
       if (opcion === 'Seguimiento') await menuSeguimiento();
       if (opcion === 'Nutrición') await menuNutricion();
+      if (opcion === 'Exportar progreso de cliente') await exportarClienteCommand('');
       if (opcion === 'Salir') salir = true;
     } catch (err) {
       error(`Error inesperado: ${err.message}`);
