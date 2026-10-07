@@ -32,6 +32,12 @@ Desde el menú principal selecciona **Exportar progreso de cliente**.
 
 El archivo se crea en `exports/cliente_<nombre>_progreso.json`; contiene datos del cliente. Los datos se consultan desde MySQL, que es la persistencia configurada por esta aplicación.
 
+## Respaldos y restauración
+
+Los archivos se guardan en `backups/` con fecha y hora.
+
+Desde el menú principal entra a **Respaldo y restauración**. Puedes crear un respaldo completo o elegir tablas. Para restaurar, selecciona el archivo; deja la ruta vacía para cancelar y confirma con Sí/No. El respaldo debe ser completo y tener el mismo esquema.
+
 ### Windows (PowerShell)
 ```bash
 git clone <URL-DEL-REPO>
